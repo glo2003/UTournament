@@ -6,7 +6,7 @@ import com.github.glo2003.utournament.application.assembler.TournamentAssembler;
 import com.github.glo2003.utournament.application.dtos.BracketDto;
 import com.github.glo2003.utournament.application.dtos.ParticipantDto;
 import com.github.glo2003.utournament.application.dtos.TournamentDto;
-import com.github.glo2003.utournament.application.exceptions.NamesNotUnique;
+import com.github.glo2003.utournament.application.exceptions.NamesNotUniqueException;
 import com.github.glo2003.utournament.application.exceptions.TournamentNotFoundException;
 import com.github.glo2003.utournament.entities.*;
 import com.github.glo2003.utournament.entities.bracket.Bracket;
@@ -39,7 +39,7 @@ public class TournamentService {
         Set<String> names = new HashSet<>();
         for (ParticipantDto p : participantDtos) {
             if (names.contains(p.name)) {
-                throw new NamesNotUnique();
+                throw new NamesNotUniqueException();
             }
             names.add(p.name);
         }

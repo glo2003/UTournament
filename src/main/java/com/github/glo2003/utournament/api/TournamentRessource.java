@@ -6,7 +6,7 @@ import com.github.glo2003.utournament.application.TournamentService;
 import com.github.glo2003.utournament.application.dtos.BracketDto;
 import com.github.glo2003.utournament.application.dtos.ParticipantDto;
 import com.github.glo2003.utournament.application.dtos.TournamentDto;
-import com.github.glo2003.utournament.application.exceptions.NamesNotUnique;
+import com.github.glo2003.utournament.application.exceptions.NamesNotUniqueException;
 import com.github.glo2003.utournament.application.exceptions.TournamentNotFoundException;
 import com.github.glo2003.utournament.entities.TournamentId;
 import com.github.glo2003.utournament.entities.bracket.exceptions.BracketAlreadyPlayedException;
@@ -65,7 +65,7 @@ public class TournamentRessource {
             });
         });
 
-        exception(NamesNotUnique.class, (exception, request, response) -> {
+        exception(NamesNotUniqueException.class, (exception, request, response) -> {
             response.status(400);
         });
         exception(TournamentNotFoundException.class, (exception, request, response) -> {
