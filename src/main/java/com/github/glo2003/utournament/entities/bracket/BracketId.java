@@ -6,10 +6,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class BracketId {
     public static AtomicInteger idGenerator = new AtomicInteger();
 
-    private int id;
+    private final int id;
 
     public BracketId() {
         id = idGenerator.getAndIncrement();
+    }
+
+    public BracketId(int id) {
+        this.id = id;
     }
 
     @Override

@@ -11,4 +11,8 @@ public class ParticipantAssembler {
 
         return dto;
     }
+
+    public Participant fromDto(ParticipantDto participantDto) {
+        return new Participant(participantDto.name);
+    }
 }

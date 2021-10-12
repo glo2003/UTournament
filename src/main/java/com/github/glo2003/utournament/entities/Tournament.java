@@ -7,12 +7,15 @@ import java.util.Objects;
 
 public class Tournament {
     private final TournamentId id;
-    private String name;
-    private List<Participant> participants;
-    private Bracket bracket;
+    private final String name;
+    private final List<Participant> participants;
+    private final Bracket bracket;
 
-    public Tournament(TournamentId id) {
+    public Tournament(TournamentId id, String name, List<Participant> participants, Bracket bracket) {
         this.id = id;
+        this.name = name;
+        this.participants = participants;
+        this.bracket = bracket;
     }
 
     public TournamentId getId() {

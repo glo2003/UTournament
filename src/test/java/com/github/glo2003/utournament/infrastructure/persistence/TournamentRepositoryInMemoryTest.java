@@ -1,10 +1,14 @@
 package com.github.glo2003.utournament.infrastructure.persistence;
 
+import com.github.glo2003.utournament.entities.Participant;
 import com.github.glo2003.utournament.entities.Tournament;
 import com.github.glo2003.utournament.entities.TournamentId;
+import com.github.glo2003.utournament.entities.bracket.BracketId;
+import com.github.glo2003.utournament.entities.bracket.ByeBracket;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -17,7 +21,10 @@ class TournamentRepositoryInMemoryTest {
     @BeforeEach
     void setUp() {
         repository = new TournamentRepositoryInMemory();
-        tournament = new Tournament(new TournamentId());
+        tournament = new Tournament(new TournamentId(),
+                "smash",
+                List.of(),
+                new ByeBracket(new BracketId(), new Participant("Alice")));
         tournamentId = tournament.getId();
     }
 
@@ -41,7 +48,7 @@ class TournamentRepositoryInMemoryTest {
     void canDeleteTournament() {
         repository.save(tournament);
 
-        repository.remove(tournament);
+        repository.remove(tournament.getId());
 
         Optional<Tournament> tournament = repository.get(tournamentId);
         assertThat(tournament.isPresent()).isFalse();
@@ -49,7 +56,7 @@ class TournamentRepositoryInMemoryTest {
 
     @Test
     void canDeleteNonPresentTournament() {
-        repository.remove(tournament);
+        repository.remove(tournament.getId());
 
         Optional<Tournament> tournament = repository.get(tournamentId);
         assertThat(tournament.isPresent()).isFalse();

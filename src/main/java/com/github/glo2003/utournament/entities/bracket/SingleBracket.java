@@ -1,17 +1,29 @@
 package com.github.glo2003.utournament.entities.bracket;
 
 import com.github.glo2003.utournament.entities.Participant;
+import com.github.glo2003.utournament.entities.bracket.exceptions.BracketAlreadyPlayedException;
+import com.github.glo2003.utournament.entities.bracket.exceptions.ParticipantNotInBracketException;
 
 import java.util.Optional;
 
-public class SingleBracket implements Bracket {
+public class SingleBracket extends Bracket {
     private final Participant participantOne;
     private final Participant participantTwo;
     private Participant winner;
 
-    public SingleBracket(Participant participantOne, Participant participantTwo) {
+    public SingleBracket(BracketId id, Participant participantOne, Participant participantTwo) {
+        super(id);
         this.participantOne = participantOne;
         this.participantTwo = participantTwo;
+        this.winner = null;
+    }
+
+    public Participant getParticipantOne() {
+        return participantOne;
+    }
+
+    public Participant getParticipantTwo() {
+        return participantTwo;
     }
 
     @Override
@@ -24,11 +36,15 @@ public class SingleBracket implements Bracket {
         visitor.visit(this);
     }
 
-    public Participant getParticipantOne() {
-        return participantOne;
-    }
-
-    public Participant getParticipantTwo() {
-        return participantTwo;
+    @Override
+    public void win(Participant participant) {
+        if (winner != null) {
+            throw new ParticipantNotInBracketException(participant);
+        }
+        if (getParticipantOne().equals(participant) || getParticipantTwo().equals(participant)) {
+            winner = participant;
+        } else {
+            throw new BracketAlreadyPlayedException(this);
+        }
     }
 }

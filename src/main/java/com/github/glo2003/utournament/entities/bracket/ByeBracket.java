@@ -1,15 +1,21 @@
 package com.github.glo2003.utournament.entities.bracket;
 
 import com.github.glo2003.utournament.entities.Participant;
+import com.github.glo2003.utournament.entities.bracket.exceptions.BracketAlreadyPlayedException;
 
 import java.util.Optional;
 
-public class ByeBracket implements Bracket {
+public class ByeBracket extends Bracket {
 
     private final Participant participant;
 
-    public ByeBracket(Participant participant) {
+    public ByeBracket(BracketId id, Participant participant) {
+        super(id);
         this.participant = participant;
+    }
+
+    public Participant getParticipant() {
+        return participant;
     }
 
     @Override
@@ -22,7 +28,8 @@ public class ByeBracket implements Bracket {
         visitor.visit(this);
     }
 
-    public Participant getParticipant() {
-        return participant;
+    @Override
+    public void win(Participant participant) {
+        throw new BracketAlreadyPlayedException(this);
     }
 }

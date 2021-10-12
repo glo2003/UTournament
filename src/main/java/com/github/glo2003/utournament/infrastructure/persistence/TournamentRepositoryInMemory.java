@@ -28,8 +28,7 @@ public class TournamentRepositoryInMemory implements TournamentRepository {
     }
 
     @Override
-    public void remove(Tournament tournament) {
-        TournamentId tournamentId = tournament.getId();
+    public void remove(TournamentId tournamentId) {
         database.remove(tournamentId);
     }
 }

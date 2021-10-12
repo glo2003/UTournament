@@ -8,6 +8,18 @@ import com.github.glo2003.utournament.entities.bracket.*;
 
 public class BracketAssembler {
 
+    private final ParticipantAssembler participantAssembler;
+
+    public BracketAssembler() {
+        participantAssembler = new ParticipantAssembler();
+    }
+
+    public BracketDto toDto(Bracket bracket) {
+        ToDtoVisitor visitor = new ToDtoVisitor();
+        bracket.accept(visitor);
+        return visitor.getDto();
+    }
+
     private class ToDtoVisitor implements BracketVisitor {
 
         private BracketDto dto;
@@ -20,6 +32,7 @@ public class BracketAssembler {
         public void visit(ByeBracket bracket) {
             ByeBracketDto dto = new ByeBracketDto();
 
+            dto.id = bracket.getId().toString();
             dto.winner = bracket.getWinner()
                     .map(participantAssembler::toDto)
                     .orElse(null);
@@ -32,6 +45,7 @@ public class BracketAssembler {
         public void visit(SingleBracket bracket) {
             SingleBracketDto dto = new SingleBracketDto();
 
+            dto.id = bracket.getId().toString();
             dto.winner = bracket.getWinner()
                     .map(participantAssembler::toDto)
                     .orElse(null);
@@ -45,6 +59,7 @@ public class BracketAssembler {
         public void visit(IntermediateBracket bracket) {
             IntermediateBracketDto dto = new IntermediateBracketDto();
 
+            dto.id = bracket.getId().toString();
             dto.winner = bracket.getWinner()
                     .map(participantAssembler::toDto)
                     .orElse(null);
@@ -53,17 +68,5 @@ public class BracketAssembler {
 
             this.dto = dto;
         }
-    }
-
-    private final ParticipantAssembler participantAssembler;
-
-    public BracketAssembler() {
-        participantAssembler = new ParticipantAssembler();
-    }
-
-    BracketDto toDto(Bracket bracket) {
-        ToDtoVisitor visitor = new ToDtoVisitor();
-        bracket.accept(visitor);
-        return visitor.getDto();
     }
 }

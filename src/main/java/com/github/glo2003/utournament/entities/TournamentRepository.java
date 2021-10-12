@@ -7,5 +7,5 @@ public interface TournamentRepository {
 
     void save(Tournament tournament);
 
-    void remove(Tournament tournament);
+    void remove(TournamentId tournamentId);
 }

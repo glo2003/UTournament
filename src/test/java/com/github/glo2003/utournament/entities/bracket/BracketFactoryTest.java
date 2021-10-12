@@ -1,6 +1,7 @@
 package com.github.glo2003.utournament.entities.bracket;
 
 import com.github.glo2003.utournament.entities.Participant;
+import com.github.glo2003.utournament.entities.bracket.exceptions.BracketCreationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,13 +31,13 @@ class BracketFactoryTest {
     void onZeroParticipant_createBracketShouldThrow() {
         List<Participant> participants = createParticipants(0);
 
-        assertThrows(BracketCreationError.class, () -> {
+        assertThrows(BracketCreationException.class, () -> {
             bracketFactory.createBracket(participants);
         });
     }
 
     @Test
-    void onOneParticipant_createByeBracket() throws Exception {
+    void onOneParticipant_createByeBracket() {
         List<Participant> participants = createParticipants(1);
 
         Bracket bracket = bracketFactory.createBracket(participants);
@@ -47,7 +48,7 @@ class BracketFactoryTest {
     }
 
     @Test
-    void onTwoParticipants_createSingleBracket() throws Exception {
+    void onTwoParticipants_createSingleBracket() {
         List<Participant> participants = createParticipants(2);
 
         Bracket bracket = bracketFactory.createBracket(participants);
@@ -59,7 +60,7 @@ class BracketFactoryTest {
     }
 
     @Test
-    void onMoreThanTwoParticipants_createIntermediateBracket() throws Exception {
+    void onMoreThanTwoParticipants_createIntermediateBracket() {
         List<Participant> participants = createParticipants(11);
 
         Bracket bracket = bracketFactory.createBracket(participants);
@@ -68,7 +69,7 @@ class BracketFactoryTest {
     }
 
     @Test
-    void createdBracketShouldContainEveryParticipant() throws Exception {
+    void createdBracketShouldContainEveryParticipant() {
         List<Participant> participants = createParticipants(11);
 
         IntermediateBracket bracket = (IntermediateBracket) bracketFactory.createBracket(participants);
@@ -93,7 +94,7 @@ class BracketFactoryTest {
     }
 
     @Test
-    void onPowerOfTwoNumberOfParticipants_thenCreateTreeOfSingleBrackets() throws Exception {
+    void onPowerOfTwoNumberOfParticipants_thenCreateTreeOfSingleBrackets() {
         List<Participant> participants = createParticipants(8);
 
         IntermediateBracket bracket = (IntermediateBracket) bracketFactory.createBracket(participants);
@@ -111,7 +112,7 @@ class BracketFactoryTest {
     }
 
     @Test
-    void onNonPowerOfTwoNumberOfParticipants_thenCreateAtLeastOneByeBracket() throws Exception {
+    void onNonPowerOfTwoNumberOfParticipants_thenCreateAtLeastOneByeBracket() {
         List<Participant> participants = createParticipants(9);
 
         IntermediateBracket bracket = (IntermediateBracket) bracketFactory.createBracket(participants);
