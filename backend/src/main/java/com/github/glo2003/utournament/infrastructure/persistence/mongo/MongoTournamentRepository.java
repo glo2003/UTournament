@@ -26,11 +26,6 @@ public class MongoTournamentRepository implements TournamentRepository {
     private final TournamentMongoAssembler tournamentMongoAssembler;
 
     public MongoTournamentRepository(String connString) {
-        // TODO remove
-//        CodecRegistry pojoCodecRegistry = fromProviders(PojoCodecProvider.builder().automatic(true).build());
-//        CodecRegistry codecRegistry = fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
-//                                             pojoCodecRegistry);
-
         ConnectionString connectionString = new ConnectionString(connString);
         CodecRegistry codecRegistry = CodecRegistries.fromRegistries(
                 MongoClientSettings.getDefaultCodecRegistry(),

@@ -69,39 +69,39 @@ public class TournamentRessource {
 
         exception(NamesNotUniqueException.class, (exception, request, response) -> {
             response.status(400);
-            response.body("Names are no unique");
+            response.body(exception.getMessage());
         });
         exception(TournamentNotFoundException.class, (exception, request, response) -> {
             response.status(404);
-            response.body("Tournament was not found");
+            response.body(exception.getMessage());
         });
         exception(BracketAlreadyPlayedException.class, (exception, request, response) -> {
             response.status(400);
-            response.body("Bracket was already played");
+            response.body(exception.getMessage());
         });
         exception(BracketCreationException.class, (exception, request, response) -> {
             response.status(500);
-            response.body("Bracket creation error");
+            response.body(exception.getMessage());
         });
         exception(BracketNotPlayableException.class, (exception, request, response) -> {
             response.status(400);
-            response.body("Bracket is not playable");
+            response.body(exception.getMessage());
         });
         exception(BracketNotFoundException.class, (exception, request, response) -> {
             response.status(400);
-            response.body("Bracket not found");
+            response.body(exception.getMessage());
         });
         exception(ParticipantNotInBracketException.class, (exception, request, response) -> {
             response.status(400);
-            response.body("Participant is not in the bracket");
+            response.body(exception.getMessage());
         });
         exception(InvalidBracketIdException.class, (exception, request, response) -> {
             response.status(400);
-            response.body("Invalid bracket id format");
+            response.body(exception.getMessage());
         });
         exception(InvalidTournamentIdException.class, (exception, request, response) -> {
             response.status(400);
-            response.body("Invalid tournament id format");
+            response.body(exception.getMessage());
         });
     }
 }
