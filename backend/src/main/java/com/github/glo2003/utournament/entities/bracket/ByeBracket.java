@@ -6,7 +6,6 @@ import com.github.glo2003.utournament.entities.bracket.exceptions.BracketAlready
 import java.util.Optional;
 
 public class ByeBracket extends Bracket {
-
     private final Participant participant;
 
     public ByeBracket(BracketId id, Participant participant) {

@@ -6,6 +6,7 @@ import com.github.glo2003.utournament.application.assembler.TournamentAssembler;
 import com.github.glo2003.utournament.application.dtos.BracketDto;
 import com.github.glo2003.utournament.application.dtos.ParticipantDto;
 import com.github.glo2003.utournament.application.dtos.TournamentDto;
+import com.github.glo2003.utournament.application.exceptions.BracketNotFoundException;
 import com.github.glo2003.utournament.application.exceptions.NamesNotUniqueException;
 import com.github.glo2003.utournament.application.exceptions.TournamentNotFoundException;
 import com.github.glo2003.utournament.entities.*;
@@ -50,17 +51,17 @@ public class TournamentService {
         Tournament tournament = tournamentFactory.createTournament(name, participants);
         tournamentRepository.save(tournament);
 
-        return tournament.getId();
+        return tournament.getTournamentId();
     }
 
     public TournamentDto getTournament(String tournamentIdString) {
-        TournamentId tournamentId = parseTournamentId(tournamentIdString);
-        Tournament tournament = TournamentService.this.getTournament(tournamentId);
+        TournamentId tournamentId = TournamentId.fromString(tournamentIdString);
+        Tournament tournament = getTournament(tournamentId);
         return tournamentAssembler.toDto(tournament);
     }
 
     public List<BracketDto> getPlayableBrackets(String tournamentIdString) {
-        TournamentId tournamentId = parseTournamentId(tournamentIdString);
+        TournamentId tournamentId = TournamentId.fromString(tournamentIdString);
         Tournament tournament = getTournament(tournamentId);
         Bracket bracket = tournament.getBracket();
 
@@ -73,44 +74,29 @@ public class TournamentService {
     }
 
     public void winBracket(String tournamentIdString, String bracketIdString, ParticipantDto winnerDto) {
-        TournamentId tournamentId = parseTournamentId(tournamentIdString);
+        TournamentId tournamentId = TournamentId.fromString(tournamentIdString);
         Tournament tournament = getTournament(tournamentId);
         Bracket bracket = tournament.getBracket();
-        BracketId bracketId = parseBracketId(bracketIdString);
+        BracketId bracketId = BracketId.fromString(bracketIdString);
         Participant winner = participantAssembler.fromDto(winnerDto);
 
         WinBracketVisitor visitor = new WinBracketVisitor(bracketId, winner);
         bracket.accept(visitor);
+        if (!visitor.getHasWon()) {
+            throw new BracketNotFoundException(bracketId);
+        }
 
         tournamentRepository.save(tournament);
     }
 
     public void deleteTournament(String tournamentIdString) {
-        TournamentId tournamentId = parseTournamentId(tournamentIdString);
+        TournamentId tournamentId = TournamentId.fromString(tournamentIdString);
         tournamentRepository.remove(tournamentId);
-    }
-
-    private TournamentId parseTournamentId(String tournamentIdString) {
-        try {
-            int i = Integer.parseInt(tournamentIdString);
-            return new TournamentId(i);
-        } catch (NumberFormatException e) {
-            throw new TournamentNotFoundException(tournamentIdString);
-        }
-    }
-
-    private BracketId parseBracketId(String bracketIdString) {
-        try {
-            int i = Integer.parseInt(bracketIdString);
-            return new BracketId(i);
-        } catch (NumberFormatException e) {
-            throw new TournamentNotFoundException(bracketIdString);
-        }
     }
 
     private Tournament getTournament(TournamentId tournamentId) {
         Optional<Tournament> optionalTournament = tournamentRepository.get(tournamentId);
         return optionalTournament.orElseThrow(
-                () -> new TournamentNotFoundException(tournamentId.toString()));
+                () -> new TournamentNotFoundException(tournamentId));
     }
 }

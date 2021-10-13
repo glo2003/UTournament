@@ -5,7 +5,6 @@ import com.github.glo2003.utournament.entities.bracket.*;
 import java.util.function.Consumer;
 
 public class MapBracketVisitor implements BracketVisitor {
-
     private final Consumer<Bracket> f;
 
     public MapBracketVisitor(Consumer<Bracket> f) {

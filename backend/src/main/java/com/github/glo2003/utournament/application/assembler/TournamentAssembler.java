@@ -6,7 +6,6 @@ import com.github.glo2003.utournament.entities.Tournament;
 import java.util.stream.Collectors;
 
 public class TournamentAssembler {
-
     private final ParticipantAssembler participantAssembler;
     private final BracketAssembler bracketAssembler;
 
@@ -18,7 +17,7 @@ public class TournamentAssembler {
     public TournamentDto toDto(Tournament tournament) {
         TournamentDto dto = new TournamentDto();
 
-        dto.tournamentId = tournament.getId().toString();
+        dto.tournamentId = tournament.getTournamentId().toString();
         dto.name = tournament.getName();
         dto.participants = tournament.getParticipants().stream()
                 .map(participantAssembler::toDto)

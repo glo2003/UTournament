@@ -5,14 +5,14 @@ import com.github.glo2003.utournament.entities.Participant;
 import java.util.Optional;
 
 public abstract class Bracket {
-    private final BracketId id;
+    private final BracketId bracketId;
 
-    public Bracket(BracketId id) {
-        this.id = id;
+    public Bracket(BracketId bracketId) {
+        this.bracketId = bracketId;
     }
 
-    public BracketId getId() {
-        return id;
+    public BracketId getBracketId() {
+        return bracketId;
     }
 
     public abstract Optional<Participant> getWinner();

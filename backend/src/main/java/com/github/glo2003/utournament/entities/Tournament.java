@@ -6,20 +6,20 @@ import java.util.List;
 import java.util.Objects;
 
 public class Tournament {
-    private final TournamentId id;
+    private final TournamentId tournamentId;
     private final String name;
     private final List<Participant> participants;
     private final Bracket bracket;
 
-    public Tournament(TournamentId id, String name, List<Participant> participants, Bracket bracket) {
-        this.id = id;
+    public Tournament(TournamentId tournamentId, String name, List<Participant> participants, Bracket bracket) {
+        this.tournamentId = tournamentId;
         this.name = name;
         this.participants = participants;
         this.bracket = bracket;
     }
 
-    public TournamentId getId() {
-        return id;
+    public TournamentId getTournamentId() {
+        return tournamentId;
     }
 
     public String getName() {
@@ -39,11 +39,11 @@ public class Tournament {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tournament that = (Tournament) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(participants, that.participants) && Objects.equals(bracket, that.bracket);
+        return Objects.equals(tournamentId, that.tournamentId) && Objects.equals(name, that.name) && Objects.equals(participants, that.participants) && Objects.equals(bracket, that.bracket);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, participants, bracket);
+        return Objects.hash(tournamentId, name, participants, bracket);
     }
 }

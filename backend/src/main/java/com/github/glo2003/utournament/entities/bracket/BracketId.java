@@ -1,19 +1,27 @@
 package com.github.glo2003.utournament.entities.bracket;
 
+import com.github.glo2003.utournament.entities.exceptions.InvalidTournamentIdException;
+
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.UUID;
 
 public class BracketId {
-    public static AtomicInteger idGenerator = new AtomicInteger();
-
-    private final int id;
+    private final UUID id;
 
     public BracketId() {
-        id = idGenerator.getAndIncrement();
+        id = UUID.randomUUID();
     }
 
-    public BracketId(int id) {
+    private BracketId(UUID id) {
         this.id = id;
+    }
+
+    public static BracketId fromString(String id) {
+        try {
+            return new BracketId(UUID.fromString(id));
+        } catch (IllegalArgumentException e) {
+            throw new InvalidTournamentIdException(id);
+        }
     }
 
     @Override
@@ -25,8 +33,8 @@ public class BracketId {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BracketId that = (BracketId) o;
-        return id == that.id;
+        BracketId bracketId = (BracketId) o;
+        return Objects.equals(id, bracketId.id);
     }
 
     @Override

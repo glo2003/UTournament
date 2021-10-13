@@ -18,6 +18,11 @@ public class SingleBracket extends Bracket {
         this.winner = null;
     }
 
+    public SingleBracket(BracketId id, Participant participantOne, Participant participantTwo, Participant winner) {
+        this(id, participantOne, participantTwo);
+        this.winner = winner;
+    }
+
     public Participant getParticipantOne() {
         return participantOne;
     }
@@ -39,12 +44,12 @@ public class SingleBracket extends Bracket {
     @Override
     public void win(Participant participant) {
         if (winner != null) {
-            throw new ParticipantNotInBracketException(participant);
+            throw new BracketAlreadyPlayedException(this);
         }
         if (getParticipantOne().equals(participant) || getParticipantTwo().equals(participant)) {
             winner = participant;
         } else {
-            throw new BracketAlreadyPlayedException(this);
+            throw new ParticipantNotInBracketException(participant);
         }
     }
 }

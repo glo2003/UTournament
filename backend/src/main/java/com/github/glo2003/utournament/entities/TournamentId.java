@@ -1,19 +1,27 @@
 package com.github.glo2003.utournament.entities;
 
+import com.github.glo2003.utournament.entities.exceptions.InvalidTournamentIdException;
+
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.UUID;
 
 public class TournamentId {
-    public static AtomicInteger idGenerator = new AtomicInteger();
-
-    private final int id;
+    private final UUID id;
 
     public TournamentId() {
-        id = idGenerator.getAndIncrement();
+        id = UUID.randomUUID();
     }
 
-    public TournamentId(int id) {
+    private TournamentId(UUID id) {
         this.id = id;
+    }
+
+    public static TournamentId fromString(String id) {
+        try {
+            return new TournamentId(UUID.fromString(id));
+        } catch (IllegalArgumentException e) {
+            throw new InvalidTournamentIdException(id);
+        }
     }
 
     @Override
@@ -26,7 +34,7 @@ public class TournamentId {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TournamentId that = (TournamentId) o;
-        return id == that.id;
+        return Objects.equals(id, that.id);
     }
 
     @Override

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FindPlayableBracketsVisitor implements BracketVisitor {
-
     private final List<Bracket> playable;
 
     public FindPlayableBracketsVisitor() {

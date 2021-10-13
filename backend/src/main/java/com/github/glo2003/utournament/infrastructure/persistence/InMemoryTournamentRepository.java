@@ -8,11 +8,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class TournamentRepositoryInMemory implements TournamentRepository {
-
+public class InMemoryTournamentRepository implements TournamentRepository {
     private final Map<TournamentId, Tournament> database;
 
-    public TournamentRepositoryInMemory() {
+    public InMemoryTournamentRepository() {
         database = new HashMap<>();
     }
 
@@ -23,7 +22,7 @@ public class TournamentRepositoryInMemory implements TournamentRepository {
 
     @Override
     public void save(Tournament tournament) {
-        TournamentId tournamentId = tournament.getId();
+        TournamentId tournamentId = tournament.getTournamentId();
         database.put(tournamentId, tournament);
     }
 

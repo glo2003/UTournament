@@ -13,19 +13,19 @@ import java.util.Optional;
 
 import static com.google.common.truth.Truth.assertThat;
 
-class TournamentRepositoryInMemoryTest {
-    private TournamentRepositoryInMemory repository;
+class InMemoryTournamentRepositoryTest {
+    private InMemoryTournamentRepository repository;
     private Tournament tournament;
     private TournamentId tournamentId;
 
     @BeforeEach
     void setUp() {
-        repository = new TournamentRepositoryInMemory();
+        repository = new InMemoryTournamentRepository();
         tournament = new Tournament(new TournamentId(),
                 "smash",
                 List.of(),
                 new ByeBracket(new BracketId(), new Participant("Alice")));
-        tournamentId = tournament.getId();
+        tournamentId = tournament.getTournamentId();
     }
 
     @Test
@@ -48,7 +48,7 @@ class TournamentRepositoryInMemoryTest {
     void canDeleteTournament() {
         repository.save(tournament);
 
-        repository.remove(tournament.getId());
+        repository.remove(tournament.getTournamentId());
 
         Optional<Tournament> tournament = repository.get(tournamentId);
         assertThat(tournament.isPresent()).isFalse();
@@ -56,7 +56,7 @@ class TournamentRepositoryInMemoryTest {
 
     @Test
     void canDeleteNonPresentTournament() {
-        repository.remove(tournament.getId());
+        repository.remove(tournament.getTournamentId());
 
         Optional<Tournament> tournament = repository.get(tournamentId);
         assertThat(tournament.isPresent()).isFalse();

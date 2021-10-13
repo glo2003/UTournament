@@ -6,6 +6,7 @@ import com.github.glo2003.utournament.application.TournamentService;
 import com.github.glo2003.utournament.application.dtos.BracketDto;
 import com.github.glo2003.utournament.application.dtos.ParticipantDto;
 import com.github.glo2003.utournament.application.dtos.TournamentDto;
+import com.github.glo2003.utournament.application.exceptions.BracketNotFoundException;
 import com.github.glo2003.utournament.application.exceptions.NamesNotUniqueException;
 import com.github.glo2003.utournament.application.exceptions.TournamentNotFoundException;
 import com.github.glo2003.utournament.entities.TournamentId;
@@ -13,6 +14,8 @@ import com.github.glo2003.utournament.entities.bracket.exceptions.BracketAlready
 import com.github.glo2003.utournament.entities.bracket.exceptions.BracketCreationException;
 import com.github.glo2003.utournament.entities.bracket.exceptions.BracketNotPlayableException;
 import com.github.glo2003.utournament.entities.bracket.exceptions.ParticipantNotInBracketException;
+import com.github.glo2003.utournament.entities.exceptions.InvalidBracketIdException;
+import com.github.glo2003.utournament.entities.exceptions.InvalidTournamentIdException;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -20,7 +23,6 @@ import java.util.List;
 import static spark.Spark.*;
 
 public class TournamentRessource {
-
     private final TournamentService tournamentService;
     private final Gson gson;
     private TournamentResponseAssembler tournamentResponseAssembler;
@@ -67,21 +69,39 @@ public class TournamentRessource {
 
         exception(NamesNotUniqueException.class, (exception, request, response) -> {
             response.status(400);
+            response.body("Names are no unique");
         });
         exception(TournamentNotFoundException.class, (exception, request, response) -> {
             response.status(404);
+            response.body("Tournament was not found");
         });
         exception(BracketAlreadyPlayedException.class, (exception, request, response) -> {
             response.status(400);
+            response.body("Bracket was already played");
         });
         exception(BracketCreationException.class, (exception, request, response) -> {
-            response.status(400);
+            response.status(500);
+            response.body("Bracket creation error");
         });
         exception(BracketNotPlayableException.class, (exception, request, response) -> {
             response.status(400);
+            response.body("Bracket is not playable");
+        });
+        exception(BracketNotFoundException.class, (exception, request, response) -> {
+            response.status(400);
+            response.body("Bracket not found");
         });
         exception(ParticipantNotInBracketException.class, (exception, request, response) -> {
             response.status(400);
+            response.body("Participant is not in the bracket");
+        });
+        exception(InvalidBracketIdException.class, (exception, request, response) -> {
+            response.status(400);
+            response.body("Invalid bracket id format");
+        });
+        exception(InvalidTournamentIdException.class, (exception, request, response) -> {
+            response.status(400);
+            response.body("Invalid tournament id format");
         });
     }
 }
