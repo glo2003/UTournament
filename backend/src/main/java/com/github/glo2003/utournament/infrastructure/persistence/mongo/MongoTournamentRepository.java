@@ -35,7 +35,7 @@ public class MongoTournamentRepository implements TournamentRepository {
                 .codecRegistry(codecRegistry)
                 .build();
         MongoClient mongoClient = MongoClients.create(settings);
-        MongoDatabase database = mongoClient.getDatabase("tournaments");
+        MongoDatabase database = mongoClient.getDatabase("utournaments");
         tournaments = database.getCollection("tournaments", TournamentMongoDto.class);
         tournamentMongoAssembler = new TournamentMongoAssembler();
     }
