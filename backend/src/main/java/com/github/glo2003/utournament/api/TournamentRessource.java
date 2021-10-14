@@ -35,6 +35,10 @@ public class TournamentRessource {
 
     public void registerRoutes() {
         path("/tournaments", () -> {
+            get("/health", (req, res) -> {
+                res.status(200);
+                return "All set!";
+            });
             post("/", (req, res) -> {
                 TournamentCreation tournamentCreation = gson.fromJson(req.body(), TournamentCreation.class);
                 TournamentId id = tournamentService.createTournament(
