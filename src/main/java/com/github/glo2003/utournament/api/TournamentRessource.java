@@ -14,7 +14,6 @@ import com.github.glo2003.utournament.entities.bracket.exceptions.BracketAlready
 import com.github.glo2003.utournament.entities.bracket.exceptions.BracketCreationException;
 import com.github.glo2003.utournament.entities.bracket.exceptions.BracketNotPlayableException;
 import com.github.glo2003.utournament.entities.bracket.exceptions.ParticipantNotInBracketException;
-import com.github.glo2003.utournament.entities.exceptions.InvalidBracketIdException;
 import com.github.glo2003.utournament.entities.exceptions.InvalidTournamentIdException;
 import com.google.gson.Gson;
 
@@ -25,7 +24,7 @@ import static spark.Spark.*;
 public class TournamentRessource {
     private final TournamentService tournamentService;
     private final Gson gson;
-    private TournamentResponseAssembler tournamentResponseAssembler;
+    private final TournamentResponseAssembler tournamentResponseAssembler;
 
     public TournamentRessource(TournamentService tournamentService) {
         this.tournamentService = tournamentService;
@@ -96,10 +95,6 @@ public class TournamentRessource {
             response.body(exception.getMessage());
         });
         exception(ParticipantNotInBracketException.class, (exception, request, response) -> {
-            response.status(400);
-            response.body(exception.getMessage());
-        });
-        exception(InvalidBracketIdException.class, (exception, request, response) -> {
             response.status(400);
             response.body(exception.getMessage());
         });

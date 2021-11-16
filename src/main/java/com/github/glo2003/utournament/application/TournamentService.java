@@ -82,7 +82,7 @@ public class TournamentService {
 
         WinBracketVisitor visitor = new WinBracketVisitor(bracketId, winner);
         bracket.accept(visitor);
-        if (!visitor.getHasWon()) {
+        if (!visitor.hasWon()) {
             throw new BracketNotFoundException(bracketId);
         }
 

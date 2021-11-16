@@ -6,18 +6,22 @@ import com.github.glo2003.utournament.entities.TournamentFactory;
 import com.github.glo2003.utournament.entities.TournamentRepository;
 import com.github.glo2003.utournament.entities.bracket.BracketFactory;
 import com.github.glo2003.utournament.infrastructure.persistence.InMemoryTournamentRepository;
-import com.github.glo2003.utournament.infrastructure.persistence.mongo.MongoTournamentRepository;
 
 import java.util.logging.Logger;
 
 public class ApplicationContext {
+
+    public enum ApplicationMode {
+        Dev, Prod
+    }
+
     private final static Logger logger = Logger.getLogger(ApplicationContext.class.getName());
     private final int portNumber;
-    private final Mode mode;
+    private final ApplicationMode applicationMode;
 
     public ApplicationContext() {
         portNumber = findPortNumber();
-        mode = getApplicationMode();
+        applicationMode = getApplicationMode();
     }
 
     public TournamentRessource getTournamentRessource() {
@@ -29,31 +33,25 @@ public class ApplicationContext {
     }
 
     public TournamentRepository getTournamentRepository() {
-        switch (mode) {
+        switch (applicationMode) {
             case Dev:
                 return new InMemoryTournamentRepository();
-            case Prod:
-                String mongoUrl = System.getenv("MONGO_URL");
-                if (mongoUrl == null) {
-                    throw new BadConfigurationException("No provided Mongo URL");
-                }
-                return new MongoTournamentRepository(mongoUrl);
             default:
-                throw new UnsupportedOperationException("Mode " + mode + " not handled");
+                throw new UnsupportedOperationException("Mode " + applicationMode + " not handled");
         }
     }
 
-    public Mode getApplicationMode() {
+    public ApplicationMode getApplicationMode() {
         String mode = System.getenv("MODE");
         if (mode == null) {
             logger.warning(
                     "WARNING: The server mode could not be found with 'MODE' env var. Using the default one Dev"
             );
-            return Mode.Dev;
+            return ApplicationMode.Dev;
         } else if (mode.equals("DEV")) {
-            return Mode.Dev;
+            return ApplicationMode.Dev;
         } else if (mode.equals("PROD")) {
-            return Mode.Prod;
+            return ApplicationMode.Prod;
         }
         throw new UnsupportedOperationException("Mode " + mode + " not handled");
     }
@@ -71,9 +69,5 @@ public class ApplicationContext {
             );
             return 8080;
         }
-    }
-
-    public enum Mode {
-        Dev, Prod
     }
 }

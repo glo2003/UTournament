@@ -19,11 +19,6 @@ public class IntermediateBracket extends Bracket {
         this.winner = null;
     }
 
-    public IntermediateBracket(BracketId id, Bracket bracketOne, Bracket bracketTwo, Participant winner) {
-        this(id, bracketOne, bracketTwo);
-        this.winner = winner;
-    }
-
     public Bracket getBracketOne() {
         return bracketOne;
     }

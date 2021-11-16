@@ -14,14 +14,7 @@ public class WinBracketVisitor implements BracketVisitor {
         this.hasWon = false;
     }
 
-    private void winBracket(Bracket bracket) {
-        if (bracket.getBracketId().equals(bracketId)) {
-            bracket.win(winner);
-            hasWon = true;
-        }
-    }
-
-    public boolean getHasWon() {
+    public boolean hasWon() {
         return hasWon;
     }
 
@@ -40,5 +33,12 @@ public class WinBracketVisitor implements BracketVisitor {
         winBracket(bracket);
         bracket.getBracketOne().accept(this);
         bracket.getBracketTwo().accept(this);
+    }
+
+    private void winBracket(Bracket bracket) {
+        if (bracket.getBracketId().equals(bracketId)) {
+            bracket.win(winner);
+            hasWon = true;
+        }
     }
 }

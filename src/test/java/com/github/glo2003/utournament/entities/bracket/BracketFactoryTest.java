@@ -31,9 +31,7 @@ class BracketFactoryTest {
     void onZeroParticipant_createBracketShouldThrow() {
         List<Participant> participants = createParticipants(0);
 
-        assertThrows(BracketCreationException.class, () -> {
-            bracketFactory.createBracket(participants);
-        });
+        assertThrows(BracketCreationException.class, () -> bracketFactory.createBracket(participants));
     }
 
     @Test

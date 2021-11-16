@@ -18,11 +18,6 @@ public class SingleBracket extends Bracket {
         this.winner = null;
     }
 
-    public SingleBracket(BracketId id, Participant participantOne, Participant participantTwo, Participant winner) {
-        this(id, participantOne, participantTwo);
-        this.winner = winner;
-    }
-
     public Participant getParticipantOne() {
         return participantOne;
     }
