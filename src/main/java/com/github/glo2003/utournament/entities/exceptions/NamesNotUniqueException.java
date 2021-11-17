@@ -1,4 +1,4 @@
-package com.github.glo2003.utournament.application.exceptions;
+package com.github.glo2003.utournament.entities.exceptions;
 
 public class NamesNotUniqueException extends RuntimeException {
     public NamesNotUniqueException() {

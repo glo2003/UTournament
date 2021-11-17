@@ -2,7 +2,6 @@ package com.github.glo2003.utournament.entities.bracket;
 
 import com.github.glo2003.utournament.entities.Participant;
 import com.github.glo2003.utournament.entities.bracket.exceptions.BracketAlreadyPlayedException;
-import com.github.glo2003.utournament.entities.bracket.exceptions.ParticipantNotInBracketException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

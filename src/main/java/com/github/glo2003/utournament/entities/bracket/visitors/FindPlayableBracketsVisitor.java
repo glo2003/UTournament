@@ -12,15 +12,17 @@ public class FindPlayableBracketsVisitor implements BracketVisitor {
         this.playable = new ArrayList<>();
     }
 
+    public void reset() {
+        this.playable.clear();
+    }
+
     public List<Bracket> getPlayable() {
         return playable;
     }
 
     @Override
     public void visit(ByeBracket bracket) {
-        if (bracket.getWinner().isEmpty()) {
-            playable.add(bracket);
-        }
+
     }
 
     @Override

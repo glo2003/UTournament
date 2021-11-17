@@ -6,21 +6,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
+import static com.github.glo2003.utournament.entities.ParticipantTestUtils.createParticipants;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class BracketFactoryTest {
 
-    private BracketFactory bracketFactory;
-
-    private List<Participant> createParticipants(int num) {
-        return IntStream.range(0, num)
-                .mapToObj(i -> new Participant(Integer.toString(i)))
-                .collect(Collectors.toList());
-    }
+    BracketFactory bracketFactory;
 
     @BeforeEach
     void setUp() {

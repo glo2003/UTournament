@@ -3,6 +3,7 @@ package com.github.glo2003.utournament.entities.bracket.visitors;
 
 import com.github.glo2003.utournament.entities.Participant;
 import com.github.glo2003.utournament.entities.bracket.*;
+import com.github.glo2003.utournament.entities.bracket.exceptions.WinBracketVisitorNotStartedException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,14 +11,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class WinBracketVisitorTest {
 
-    private static BracketId BRACKET_ID = new BracketId();
-    private static BracketId BRACKET_ID_OTHER = new BracketId();
-    private static Participant WINNER = new Participant("Alexander");
+    private static final BracketId BRACKET_ID = new BracketId();
+    private static final BracketId BRACKET_ID_OTHER = new BracketId();
+    private static final Participant WINNER = new Participant("Alexander");
 
     WinBracketVisitor winBracketVisitor;
 
@@ -37,8 +39,24 @@ class WinBracketVisitorTest {
     Bracket bracketTwo;
 
     @BeforeEach
-    void setUp(){
-        winBracketVisitor = new WinBracketVisitor(BRACKET_ID, WINNER);
+    void setUp() {
+        winBracketVisitor = new WinBracketVisitor();
+        winBracketVisitor.start(BRACKET_ID, WINNER);
+    }
+
+    @Test
+    void throwsWhenNotStartedByeBracket() {
+        throwsWhenNotStarted(byeBracket);
+    }
+
+    @Test
+    void throwsWhenNotStartedSingleBracket() {
+        throwsWhenNotStarted(singleBracket);
+    }
+
+    @Test
+    void throwsWhenNotStartedIntermediateBracket() {
+        throwsWhenNotStarted(intermediateBracket);
     }
 
     @Test
@@ -114,6 +132,17 @@ class WinBracketVisitorTest {
     }
 
     @Test
+    void canResetWonState() {
+        when(byeBracket.getBracketId()).thenReturn(BRACKET_ID);
+        doCallRealMethod().when(byeBracket).accept(winBracketVisitor);
+        byeBracket.accept(winBracketVisitor);
+
+        winBracketVisitor.reset();
+
+        assertThat(winBracketVisitor.hasWon()).isFalse();
+    }
+
+    @Test
     void hasWonIsFalseWhenNotWon() {
         when(byeBracket.getBracketId()).thenReturn(BRACKET_ID_OTHER);
         doCallRealMethod().when(byeBracket).accept(winBracketVisitor);
@@ -121,6 +150,13 @@ class WinBracketVisitorTest {
         byeBracket.accept(winBracketVisitor);
 
         assertThat(winBracketVisitor.hasWon()).isFalse();
+    }
+
+    private void throwsWhenNotStarted(Bracket bracket) {
+        winBracketVisitor = new WinBracketVisitor();
+        doCallRealMethod().when(bracket).accept(winBracketVisitor);
+
+        assertThrows(WinBracketVisitorNotStartedException.class, () -> bracket.accept(winBracketVisitor));
     }
 
     void callsWinOnBracketWithWrongBracketId(Bracket bracket) {

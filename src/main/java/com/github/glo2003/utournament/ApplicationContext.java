@@ -5,6 +5,8 @@ import com.github.glo2003.utournament.application.TournamentService;
 import com.github.glo2003.utournament.entities.TournamentFactory;
 import com.github.glo2003.utournament.entities.TournamentRepository;
 import com.github.glo2003.utournament.entities.bracket.BracketFactory;
+import com.github.glo2003.utournament.entities.bracket.visitors.FindPlayableBracketsVisitor;
+import com.github.glo2003.utournament.entities.bracket.visitors.WinBracketVisitor;
 import com.github.glo2003.utournament.infrastructure.persistence.InMemoryTournamentRepository;
 
 import java.util.logging.Logger;
@@ -28,7 +30,12 @@ public class ApplicationContext {
         BracketFactory bracketFactory = new BracketFactory();
         TournamentFactory tournamentFactory = new TournamentFactory(bracketFactory);
         TournamentRepository tournamentRepository = getTournamentRepository();
-        TournamentService tournamentService = new TournamentService(tournamentFactory, tournamentRepository);
+        FindPlayableBracketsVisitor findPlayableBracketsVisitor = new FindPlayableBracketsVisitor();
+        WinBracketVisitor winBracketVisitor = new WinBracketVisitor();
+        TournamentService tournamentService = new TournamentService(tournamentFactory,
+                tournamentRepository,
+                findPlayableBracketsVisitor,
+                winBracketVisitor);
         return new TournamentRessource(tournamentService);
     }
 
