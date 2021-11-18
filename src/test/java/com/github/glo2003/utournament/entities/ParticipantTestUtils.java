@@ -23,4 +23,14 @@ public class ParticipantTestUtils {
                 })
                 .collect(Collectors.toList());
     }
+
+    public static List<ParticipantDto> createParticipantDtosWithDuplicates(int num) {
+        return IntStream.range(0, num)
+                .mapToObj(i -> {
+                    ParticipantDto dto = new ParticipantDto();
+                    dto.name = "Josh";
+                    return dto;
+                })
+                .collect(Collectors.toList());
+    }
 }
