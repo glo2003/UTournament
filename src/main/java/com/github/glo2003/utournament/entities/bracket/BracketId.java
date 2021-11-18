@@ -1,6 +1,6 @@
 package com.github.glo2003.utournament.entities.bracket;
 
-import com.github.glo2003.utournament.entities.exceptions.InvalidTournamentIdException;
+import com.github.glo2003.utournament.entities.bracket.exceptions.InvalidBracketIdException;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -20,7 +20,7 @@ public class BracketId {
         try {
             return new BracketId(UUID.fromString(id));
         } catch (IllegalArgumentException e) {
-            throw new InvalidTournamentIdException(id);
+            throw new InvalidBracketIdException(id);
         }
     }
 

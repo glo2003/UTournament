@@ -10,8 +10,10 @@ import com.github.glo2003.utournament.entities.*;
 import com.github.glo2003.utournament.entities.bracket.Bracket;
 import com.github.glo2003.utournament.entities.bracket.BracketId;
 import com.github.glo2003.utournament.entities.bracket.ByeBracket;
+import com.github.glo2003.utournament.entities.bracket.exceptions.InvalidBracketIdException;
 import com.github.glo2003.utournament.entities.bracket.visitors.FindPlayableBracketsVisitor;
 import com.github.glo2003.utournament.entities.bracket.visitors.WinBracketVisitor;
+import com.github.glo2003.utournament.entities.exceptions.InvalidTournamentIdException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +32,6 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class TournamentServiceTest {
 
-
     private static final String TOURNAMENT_NAME = "Smash";
     private static final int NUM_PARTICIPANT = 10;
     private static final TournamentId TOURNAMENT_ID = new TournamentId();
@@ -38,6 +39,7 @@ class TournamentServiceTest {
     private static final int NUM_BRACKETS = 5;
     private static final ParticipantDto WINNER_DTO = new ParticipantDto();
     private static final Participant PARTICIPANT = new Participant("John");
+    private static final String INVALID_ID_STRING = "invalid-id";
 
     TournamentService tournamentService;
 
@@ -108,6 +110,12 @@ class TournamentServiceTest {
 
         assertThrows(TournamentNotFoundException.class,
                 () -> tournamentService.getTournament(TOURNAMENT_ID_STRING));
+    }
+
+    @Test
+    void throwsWhenInvalidTournamentId() {
+        assertThrows(InvalidTournamentIdException.class,
+                () -> tournamentService.getTournament(INVALID_ID_STRING));
     }
 
     @Test
@@ -195,6 +203,14 @@ class TournamentServiceTest {
         assertThrows(BracketNotFoundException.class,
                 () -> tournamentService.winBracket(TOURNAMENT_ID_STRING, bracketIdString, winnerDto));
         verify(tournamentRepository, never()).save(tournament);
+    }
+
+    @Test
+    void throwsWhenInvalidBracketId() {
+        when(tournamentRepository.get(TOURNAMENT_ID)).thenReturn(Optional.of(tournament));
+
+        assertThrows(InvalidBracketIdException.class,
+                () -> tournamentService.winBracket(TOURNAMENT_ID_STRING, INVALID_ID_STRING, WINNER_DTO));
     }
 
     @Test

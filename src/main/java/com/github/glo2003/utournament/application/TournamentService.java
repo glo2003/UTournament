@@ -56,6 +56,17 @@ public class TournamentService {
         return tournamentAssembler.toDto(tournament);
     }
 
+    private Tournament getTournament(TournamentId tournamentId) {
+        Optional<Tournament> optionalTournament = tournamentRepository.get(tournamentId);
+        return optionalTournament.orElseThrow(
+                () -> new TournamentNotFoundException(tournamentId));
+    }
+
+    public void deleteTournament(String tournamentIdString) {
+        TournamentId tournamentId = TournamentId.fromString(tournamentIdString);
+        tournamentRepository.remove(tournamentId);
+    }
+
     public List<BracketDto> getPlayableBrackets(String tournamentIdString) {
         TournamentId tournamentId = TournamentId.fromString(tournamentIdString);
         Tournament tournament = getTournament(tournamentId);
@@ -88,16 +99,5 @@ public class TournamentService {
         winBracketVisitor.reset();
 
         tournamentRepository.save(tournament);
-    }
-
-    public void deleteTournament(String tournamentIdString) {
-        TournamentId tournamentId = TournamentId.fromString(tournamentIdString);
-        tournamentRepository.remove(tournamentId);
-    }
-
-    private Tournament getTournament(TournamentId tournamentId) {
-        Optional<Tournament> optionalTournament = tournamentRepository.get(tournamentId);
-        return optionalTournament.orElseThrow(
-                () -> new TournamentNotFoundException(tournamentId));
     }
 }

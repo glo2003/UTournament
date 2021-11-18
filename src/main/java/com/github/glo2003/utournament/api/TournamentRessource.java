@@ -7,13 +7,10 @@ import com.github.glo2003.utournament.application.dtos.BracketDto;
 import com.github.glo2003.utournament.application.dtos.ParticipantDto;
 import com.github.glo2003.utournament.application.dtos.TournamentDto;
 import com.github.glo2003.utournament.application.exceptions.BracketNotFoundException;
+import com.github.glo2003.utournament.entities.bracket.exceptions.*;
 import com.github.glo2003.utournament.entities.exceptions.NamesNotUniqueException;
 import com.github.glo2003.utournament.application.exceptions.TournamentNotFoundException;
 import com.github.glo2003.utournament.entities.TournamentId;
-import com.github.glo2003.utournament.entities.bracket.exceptions.BracketAlreadyPlayedException;
-import com.github.glo2003.utournament.entities.bracket.exceptions.BracketCreationException;
-import com.github.glo2003.utournament.entities.bracket.exceptions.BracketNotPlayableException;
-import com.github.glo2003.utournament.entities.bracket.exceptions.ParticipantNotInBracketException;
 import com.github.glo2003.utournament.entities.exceptions.InvalidTournamentIdException;
 import com.google.gson.Gson;
 
@@ -91,7 +88,7 @@ public class TournamentRessource {
             response.body(exception.getMessage());
         });
         exception(BracketNotFoundException.class, (exception, request, response) -> {
-            response.status(400);
+            response.status(404);
             response.body(exception.getMessage());
         });
         exception(ParticipantNotInBracketException.class, (exception, request, response) -> {
@@ -99,6 +96,10 @@ public class TournamentRessource {
             response.body(exception.getMessage());
         });
         exception(InvalidTournamentIdException.class, (exception, request, response) -> {
+            response.status(400);
+            response.body(exception.getMessage());
+        });
+        exception(InvalidBracketIdException.class, (exception, request, response) -> {
             response.status(400);
             response.body(exception.getMessage());
         });

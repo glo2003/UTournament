@@ -29,13 +29,7 @@ class InMemoryTournamentRepositoryTest {
     }
 
     @Test
-    void onNonPresentTournament_returnNone() {
-        Optional<Tournament> tournament = repository.get(tournamentId);
-        assertThat(tournament.isPresent()).isFalse();
-    }
-
-    @Test
-    void canGetBackAddedTournament() {
+    void returnTournamentWhenInRepository() {
         repository.save(tournament);
 
         Optional<Tournament> gottenTournament = repository.get(tournamentId);
@@ -45,7 +39,14 @@ class InMemoryTournamentRepositoryTest {
     }
 
     @Test
-    void canDeleteTournament() {
+    void returnEmptyWhenTournamentNotInRepository() {
+        Optional<Tournament> tournament = repository.get(tournamentId);
+
+        assertThat(tournament.isEmpty()).isTrue();
+    }
+
+    @Test
+    void canDeleteTournamentFromRepository() {
         repository.save(tournament);
 
         repository.remove(tournament.getTournamentId());
@@ -55,7 +56,7 @@ class InMemoryTournamentRepositoryTest {
     }
 
     @Test
-    void canDeleteNonPresentTournament() {
+    void canDeleteTournementNotInRepositoryWithoutError() {
         repository.remove(tournament.getTournamentId());
 
         Optional<Tournament> tournament = repository.get(tournamentId);
