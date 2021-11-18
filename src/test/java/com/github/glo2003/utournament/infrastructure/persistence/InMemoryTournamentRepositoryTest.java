@@ -56,7 +56,7 @@ class InMemoryTournamentRepositoryTest {
     }
 
     @Test
-    void canDeleteTournementNotInRepositoryWithoutError() {
+    void canDeleteTournamentNotInRepositoryWithoutError() {
         repository.remove(tournament.getTournamentId());
 
         Optional<Tournament> tournament = repository.get(tournamentId);

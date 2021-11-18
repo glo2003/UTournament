@@ -18,12 +18,9 @@ import java.util.stream.Collectors;
 
 import static com.github.glo2003.utournament.api.TournamentEnd2EndTestUtils.*;
 import static com.google.common.truth.Truth.assertThat;
-import static io.restassured.RestAssured.when;
 import static spark.Spark.stop;
 
 public class TournamentSteps {
-
-    private static final String BASE_URL = "/tournaments";
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -41,7 +38,7 @@ public class TournamentSteps {
     ParticipantDto winner;
 
     @BeforeAll
-    public static void startServer() throws InterruptedException {
+    public static void startServer() {
         UTournament.main(new String[0]);
     }
 

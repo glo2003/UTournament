@@ -22,7 +22,7 @@ public class TournamentEnd2EndTestUtils {
 
     public static final String BASE_URL = "/tournaments";
 
-    public static Gson gson = new Gson();
+    public static final Gson gson = new Gson();
 
     public static Response getHealth() {
         return when().get(BASE_URL + "/health");
