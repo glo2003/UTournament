@@ -1,6 +1,6 @@
 package com.github.glo2003.utournament;
 
-import com.github.glo2003.utournament.api.TournamentRessource;
+import com.github.glo2003.utournament.api.TournamentResource;
 
 import static spark.Spark.*;
 
@@ -22,8 +22,8 @@ public class UTournament {
             response.body(exception.getMessage());
         });
 
-        TournamentRessource tournamentRessource = appContext.getTournamentRessource();
-        tournamentRessource.registerRoutes();
+        TournamentResource tournamentResource = appContext.getTournamentResource();
+        tournamentResource.registerRoutes();
     }
 
     private static void enableCORS(final String origin, final String methods, final String headers) {

@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.emptyOrNullString;
 import static org.hamcrest.Matchers.not;
 import static spark.Spark.stop;
 
-class TournamentRessourceEnd2EndTest {
+class TournamentResourceEnd2EndTest {
 
     private static final String TOURNAMENT_NAME = "Rocket League";
     private static final String INVALID_TOURNAMENT_ID = "123-test-invalid";

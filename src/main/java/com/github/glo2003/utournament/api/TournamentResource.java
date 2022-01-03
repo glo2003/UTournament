@@ -18,12 +18,12 @@ import java.util.List;
 
 import static spark.Spark.*;
 
-public class TournamentRessource {
+public class TournamentResource {
     private final TournamentService tournamentService;
     private final Gson gson;
     private final TournamentResponseAssembler tournamentResponseAssembler;
 
-    public TournamentRessource(TournamentService tournamentService) {
+    public TournamentResource(TournamentService tournamentService) {
         this.tournamentService = tournamentService;
         this.gson = new Gson();
         this.tournamentResponseAssembler = new TournamentResponseAssembler();

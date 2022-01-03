@@ -1,6 +1,6 @@
 package com.github.glo2003.utournament;
 
-import com.github.glo2003.utournament.api.TournamentRessource;
+import com.github.glo2003.utournament.api.TournamentResource;
 import com.github.glo2003.utournament.application.TournamentService;
 import com.github.glo2003.utournament.entities.TournamentFactory;
 import com.github.glo2003.utournament.entities.TournamentRepository;
@@ -26,7 +26,7 @@ public class ApplicationContext {
         applicationMode = getApplicationMode();
     }
 
-    public TournamentRessource getTournamentRessource() {
+    public TournamentResource getTournamentResource() {
         BracketFactory bracketFactory = new BracketFactory();
         TournamentFactory tournamentFactory = new TournamentFactory(bracketFactory);
         TournamentRepository tournamentRepository = getTournamentRepository();
@@ -36,7 +36,7 @@ public class ApplicationContext {
                 tournamentRepository,
                 findPlayableBracketsVisitor,
                 winBracketVisitor);
-        return new TournamentRessource(tournamentService);
+        return new TournamentResource(tournamentService);
     }
 
     public TournamentRepository getTournamentRepository() {
